@@ -17,7 +17,7 @@ variable "key_name"     {
 
 variable "availability_zone"     { 
   description = "AWS availability zone"
-  default     = "us-east-1c" 
+  default     = "us-west-2c" 
 }
 
 variable "vpc_name" {
@@ -45,5 +45,8 @@ variable "amis" {
   description = "Base AMI to launch the instances with"
   default = {
     us-east-1 = "ami-c16422a4"
+    us-east-2 = "ami-c16422a4"
+    us-west-1 = "ami-c16422a4"
+    us-west-2 = "ami-c16422a4"
   }
 }
