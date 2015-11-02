@@ -17,7 +17,7 @@ variable "key_name"     {
 
 variable "availability_zone"     { 
   description = "AWS availability zone"
-  default     = "us-east-1c" 
+  default     = "us-east-1d"
 }
 
 variable "vpc_name" {
