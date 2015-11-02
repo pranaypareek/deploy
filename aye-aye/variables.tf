@@ -17,7 +17,7 @@ variable "key_name"     {
 
 variable "availability_zone"     { 
   description = "AWS availability zone"
-  default     = "us-west-2c" 
+  default     = "us-east-1c" 
 }
 
 variable "vpc_name" {
@@ -44,6 +44,6 @@ variable "private_subnet_cidr" {
 variable "amis" {
   description = "Base AMI to launch the instances with"
   default = {
-    us-west-2 = "ami-478b9177"
+    us-east-1 = "ami-c16422a4"
   }
 }
