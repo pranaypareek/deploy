@@ -1,5 +1,6 @@
 infra:
     clusters:
-        - aye-aye:
+        - demo:
             provider: ECS
             type: terraform
+            region: us-east-1

@@ -1,14 +1,8 @@
-resource "aws_iam_instance_profile" "shippable_aye_aye_ecs_ip" {
-  name = "shippable_aye_aye_ecs_ip"
-  roles = ["${aws_iam_role.shippable_aye_aye_ecs_role.name}"]
-}
-
-
-
-resource "aws_iam_policy" "shippable_aye_aye_ecs_policy" {
-  name = "shippable_aye_aye_ecs_policy"
+# This is the ECS policy required so that agent has access to ECS service
+resource "aws_iam_policy" "demoECSPolicy" {
+  name = "demoECSPolicy"
+  description = "ECS Policy for the Demo"
   path = "/"
-  description = "shippable_aye_aye_ecs_policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -43,8 +37,9 @@ resource "aws_iam_policy" "shippable_aye_aye_ecs_policy" {
 EOF
 }
 
-resource "aws_iam_role" "shippable_aye_aye_ecs_role" {
-  name = "shippable_aye_aye_ecs_role"
+# AWS role for ECS
+resource "aws_iam_role" "demoECSRole" {
+  name = "demoECSRole"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -69,8 +64,18 @@ resource "aws_iam_role" "shippable_aye_aye_ecs_role" {
 }
 EOF
 }
-resource "aws_iam_policy_attachment" "shippable_aye_aye_ecs_attach" {
-  name = "shippable_aye_aye_ecs_attach"
-  roles = ["${aws_iam_role.shippable_aye_aye_ecs_role.name}"]
-  policy_arn = "${aws_iam_policy.shippable_aye_aye_ecs_policy.arn}"
+
+# Attaching the role to the policy
+resource "aws_iam_policy_attachment" "demoRolePolicyAttacH" {
+  name = "demoRolePolicyAttacH"
+  roles = [
+    "${aws_iam_role.demoECSRole.name}"]
+  policy_arn = "${aws_iam_policy.demoECSPolicy.arn}"
+}
+
+# creating an instance profile so that container instances have right role
+resource "aws_iam_instance_profile" "demoECSInstProf" {
+  name = "demoECSInstProf"
+  roles = [
+    "${aws_iam_role.demoECSRole.name}"]
 }
