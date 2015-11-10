@@ -155,7 +155,7 @@ resource "aws_instance" "demoNAT" {
   ami = "ami-c02b04a8"
   availability_zone = "${var.availability_zone}"
   instance_type = "c1.medium"
-  key_name = "${var.aws_key_name}"
+  key_name = "${var.key_name}"
 
   subnet_id = "${aws_subnet.demoPubSN0-0.id}"
   security_groups = [

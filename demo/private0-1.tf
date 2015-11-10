@@ -40,7 +40,7 @@ resource "aws_instance" "demoECSIns" {
   ami = "${lookup(var.amis, var.region)}"
   availability_zone = "${var.availability_zone}"
   instance_type = "m4.large"
-  key_name = "${var.aws_key_name}"
+  key_name = "${var.key_name}"
   subnet_id = "${aws_subnet.demoPrivSN0-1.id}"
 
   security_groups = [

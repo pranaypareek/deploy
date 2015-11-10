@@ -26,7 +26,7 @@ variable "amis" {
 }
 
 # this is a PEM key for key pairs
-variable "aws_key_name" {
+variable "key_name" {
   description = "Key Pair Name used to login to the box"
 }
 
