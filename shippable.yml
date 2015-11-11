@@ -1,3 +1,12 @@
+before_prov:
+  - echo 'this is happening before provisioning'
+  - ls -ltra
+
+on_prov_error:
+  - echo 'provisioning failed miserably'
+
+on_prov_success: echo 'yay, it worked!'
+
 infra:
     clusters:
         - demo:
