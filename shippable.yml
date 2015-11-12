@@ -1,9 +1,13 @@
+env:
+  - foo=bar
+  
 before_prov:
   - echo 'this is happening before provisioning'
   - ls -ltra
 
 on_prov_error:
   - echo 'provisioning failed miserably'
+  - echo $foo
 
 on_prov_success: echo 'yay, it worked!'
 
