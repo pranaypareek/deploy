@@ -154,7 +154,7 @@ resource "aws_instance" "demoNAT" {
   # this is a special ami preconfigured to do NAT
   ami = "ami-c02b04a8"
   availability_zone = "${var.availability_zone}"
-  instance_type = "t2.micro"
+  instance_type = "c1.medium"
   key_name = "${var.key_name}"
 
   subnet_id = "${aws_subnet.demoPubSN0-0.id}"
