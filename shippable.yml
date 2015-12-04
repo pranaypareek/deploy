@@ -1,19 +1,16 @@
-env:
-  - foo=bar
-  
-before_prov:
-  - echo 'this is happening before provisioning'
-  - ls -ltra
+deploy:
+  env:
+    - foo=bar
 
-on_prov_error:
-  - echo 'provisioning failed miserably'
-  - echo $foo
+  before_prov:
+    - echo 'this is happening before provisioning'
+    - ls -ltra
 
-on_prov_success: echo 'yay, it worked!'
+  on_prov_error:
+    - echo 'provisioning failed miserably'
+    - echo $foo
 
-infra:
-    clusters:
-        - demo:
-            provider: ECS
-            type: terraform
-            region: us-east-1
+  on_prov_success: echo 'yay, it worked!'
+
+  infra:
+    - terraform: demo

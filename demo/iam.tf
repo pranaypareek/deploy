@@ -1,7 +1,7 @@
 # This is the ECS policy required so that agent has access to ECS service
-resource "aws_iam_policy" "demoECSPolicy" {
-  name = "demoECSPolicy"
-  description = "ECS Policy for the Demo"
+resource "aws_iam_policy" "trriplejayECSPolicy" {
+  name = "trriplejayECSPolicy"
+  description = "ECS Policy for trriplejay"
   path = "/"
   policy = <<EOF
 {
@@ -38,8 +38,8 @@ EOF
 }
 
 # AWS role for ECS
-resource "aws_iam_role" "demoECSRole" {
-  name = "demoECSRole"
+resource "aws_iam_role" "trriplejayECSRole" {
+  name = "trriplejayECSRole"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -66,16 +66,16 @@ EOF
 }
 
 # Attaching the role to the policy
-resource "aws_iam_policy_attachment" "demoRolePolicyAttacH" {
-  name = "demoRolePolicyAttacH"
+resource "aws_iam_policy_attachment" "trriplejayRolePolicyAttach" {
+  name = "trriplejayRolePolicyAttach"
   roles = [
-    "${aws_iam_role.demoECSRole.name}"]
-  policy_arn = "${aws_iam_policy.demoECSPolicy.arn}"
+    "${aws_iam_role.trriplejayECSRole.name}"]
+  policy_arn = "${aws_iam_policy.trriplejayECSPolicy.arn}"
 }
 
 # creating an instance profile so that container instances have right role
-resource "aws_iam_instance_profile" "demoECSInstProf" {
-  name = "demoECSInstProf"
+resource "aws_iam_instance_profile" "trriplejayECSInstProf" {
+  name = "trriplejayECSInstProf"
   roles = [
-    "${aws_iam_role.demoECSRole.name}"]
+    "${aws_iam_role.trriplejayECSRole.name}"]
 }

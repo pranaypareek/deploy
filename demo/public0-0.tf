@@ -1,8 +1,8 @@
 # Web Security group
-resource "aws_security_group" "demoWebSG" {
-  name = "demoWebSG"
+resource "aws_security_group" "trriplejayWebSG" {
+  name = "trriplejayWebSG"
   description = "Web traffic security group"
-  vpc_id = "${aws_vpc.demoVPC.id}"
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
 
   ingress {
     from_port = 80
@@ -35,20 +35,20 @@ resource "aws_security_group" "demoWebSG" {
       "${var.private0-1CIDR}"]
   }
   tags {
-    Name = "demoWebSG"
+    Name = "trriplejayWebSG"
   }
 }
 
 # ========================Load Balancers=======================
 
 # WWW Load balancer
-resource "aws_elb" "demoWWWLb" {
+resource "aws_elb" "trriplejayWWWLb" {
 
-  name = "demoWWWLb"
+  name = "trriplejayWWWLb"
   subnets = [
-    "${aws_subnet.demoPubSN0-0.id}"]
+    "${aws_subnet.trriplejayPubSN0-0.id}"]
   security_groups = [
-    "${aws_security_group.demoWebSG.id}"]
+    "${aws_security_group.trriplejayWebSG.id}"]
 
   listener {
     instance_port = 80
@@ -66,17 +66,17 @@ resource "aws_elb" "demoWWWLb" {
   }
 
   instances = [
-    "${aws_instance.demoECSIns.*.id}"]
+    "${aws_instance.trriplejayECSIns.*.id}"]
 }
 
 # API Load balancer
-resource "aws_elb" "demoAAPILb" {
+resource "aws_elb" "trriplejayAPILb" {
 
-  name = "demoAAPILb"
+  name = "trriplejayAPILb"
   subnets = [
-    "${aws_subnet.demoPubSN0-0.id}"]
+    "${aws_subnet.trriplejayPubSN0-0.id}"]
   security_groups = [
-    "${aws_security_group.demoWebSG.id}"]
+    "${aws_security_group.trriplejayWebSG.id}"]
 
   listener {
     instance_port = 80
@@ -94,5 +94,5 @@ resource "aws_elb" "demoAAPILb" {
   }
 
   instances = [
-    "${aws_instance.demoECSIns.*.id}"]
+    "${aws_instance.trriplejayECSIns.*.id}"]
 }
