@@ -152,7 +152,7 @@ resource "aws_security_group" "natSg" {
 # NAT Server
 resource "aws_instance" "trriplejayNAT" {
   # this is a special ami preconfigured to do NAT
-  ami = "ami-c02b04a8"
+  ami = "ami-2dae821d"
   availability_zone = "${var.availability_zone}"
   instance_type = "c1.medium"
   key_name = "${var.key_name}"
