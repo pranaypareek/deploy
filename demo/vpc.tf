@@ -1,7 +1,7 @@
 #========================== VPC  =============================
 
 # Define a vpc
-resource "aws_vpc" "demoVPC" {
+resource "aws_vpc" "trriplejayVPC" {
   cidr_block = "${var.networkCIDR}"
   enable_dns_hostnames = true
   tags {
@@ -10,71 +10,71 @@ resource "aws_vpc" "demoVPC" {
 }
 
 # Internet gateway for the public subnet
-resource "aws_internet_gateway" "demoIG" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
+resource "aws_internet_gateway" "trriplejayIG" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
   tags {
-    Name = "demoIG"
+    Name = "trriplejayIG"
   }
 }
 
 #========================== 0.0 Subnet =============================
 
 # Public subnet
-resource "aws_subnet" "demoPubSN0-0" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
+resource "aws_subnet" "trriplejayPubSN0-0" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
   cidr_block = "${var.public0-0CIDR}"
   availability_zone = "${var.availability_zone}"
   tags {
-    Name = "demoPubSN0-0-0"
+    Name = "trriplejayPubSN0-0-0"
   }
 }
 
 # Routing table for public subnet
-resource "aws_route_table" "demoPubSN0-0RT" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
+resource "aws_route_table" "trriplejayPubSN0-0RT" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.demoIG.id}"
+    gateway_id = "${aws_internet_gateway.trriplejayIG.id}"
   }
   tags {
-    Name = "demoPubSN0-0RT"
+    Name = "trriplejayPubSN0-0RT"
   }
 }
 
 # Associate the routing table to public subnet
-resource "aws_route_table_association" "demoPubSN0-0RTAssn" {
-  subnet_id = "${aws_subnet.demoPubSN0-0.id}"
-  route_table_id = "${aws_route_table.demoPubSN0-0RT.id}"
+resource "aws_route_table_association" "trriplejayPubSN0-0RTAssn" {
+  subnet_id = "${aws_subnet.trriplejayPubSN0-0.id}"
+  route_table_id = "${aws_route_table.trriplejayPubSN0-0RT.id}"
 }
 
 #========================== 0.1 subnet ======================
 
 # Private 0.1 subnet
-resource "aws_subnet" "demoPrivSN0-1" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
+resource "aws_subnet" "trriplejayPrivSN0-1" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
   cidr_block = "${var.private0-1CIDR}"
   availability_zone = "${var.availability_zone}"
   tags {
-    Name = "demoPrivSN0-1"
+    Name = "trriplejayPrivSN0-1"
   }
 }
 
 # Routing table for private subnet
-resource "aws_route_table" "demoPrivSN0-1RT" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
+resource "aws_route_table" "trriplejayPrivSN0-1RT" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
   route {
     cidr_block = "0.0.0.0/0"
-    instance_id = "${aws_instance.demoNAT.id}"
+    instance_id = "${aws_instance.trriplejayNAT.id}"
   }
   tags {
-    Name = "demoPrivSN0-1RT"
+    Name = "trriplejayPrivSN0-1RT"
   }
 }
 
 # Associate the routing table to private subnet
-resource "aws_route_table_association" "demoPrivSN0-1RTAssn" {
-  subnet_id = "${aws_subnet.demoPrivSN0-1.id}"
-  route_table_id = "${aws_route_table.demoPrivSN0-1RT.id}"
+resource "aws_route_table_association" "trriplejayPrivSN0-1RTAssn" {
+  subnet_id = "${aws_subnet.trriplejayPrivSN0-1.id}"
+  route_table_id = "${aws_route_table.trriplejayPrivSN0-1RT.id}"
 }
 
 #========================== NAT =============================
@@ -142,7 +142,7 @@ resource "aws_security_group" "natSg" {
       "0.0.0.0/0"]
   }
 
-  vpc_id = "${aws_vpc.demoVPC.id}"
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
 
   tags {
     Name = "NATSG"
@@ -150,14 +150,14 @@ resource "aws_security_group" "natSg" {
 }
 
 # NAT Server
-resource "aws_instance" "demoNAT" {
+resource "aws_instance" "trriplejayNAT" {
   # this is a special ami preconfigured to do NAT
-  ami = "ami-c02b04a8"
+  ami = "ami-2dae821d"
   availability_zone = "${var.availability_zone}"
   instance_type = "c1.medium"
-  key_name = "${var.aws_key_name}"
+  key_name = "${var.key_name}"
 
-  subnet_id = "${aws_subnet.demoPubSN0-0.id}"
+  subnet_id = "${aws_subnet.trriplejayPubSN0-0.id}"
   security_groups = [
     "${aws_security_group.natSg.id}"]
 
@@ -165,18 +165,18 @@ resource "aws_instance" "demoNAT" {
   source_dest_check = false
 
   tags = {
-    Name = "demoNAT"
+    Name = "trriplejayNAT"
   }
 }
 
 # Associate EIP, without this private SN wont work
 resource "aws_eip" "nat" {
-  instance = "${aws_instance.demoNAT.id}"
+  instance = "${aws_instance.trriplejayNAT.id}"
   vpc = true
 }
 
 # make this routing table the main one
-resource "aws_main_route_table_association" "demoPrivSN0-1RTMain" {
-  vpc_id = "${aws_vpc.demoVPC.id}"
-  route_table_id = "${aws_route_table.demoPrivSN0-1RT.id}"
+resource "aws_main_route_table_association" "trriplejayPrivSN0-1RTMain" {
+  vpc_id = "${aws_vpc.trriplejayVPC.id}"
+  route_table_id = "${aws_route_table.trriplejayPrivSN0-1RT.id}"
 }

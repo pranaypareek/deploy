@@ -1,6 +1,16 @@
-infra:
-    clusters:
-        - demo:
-            provider: ECS
-            type: terraform
-            region: us-east-1
+deploy:
+  env:
+    - foo=bar
+
+  before_prov:
+    - echo 'this is happening before provisioning'
+    - ls -ltra
+
+  on_prov_error:
+    - echo 'provisioning failed miserably'
+    - echo $foo
+
+  on_prov_success: echo 'yay, it worked!'
+
+  infra:
+    - terraform: demo

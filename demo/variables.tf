@@ -9,31 +9,31 @@ variable "aws_secret_access_key" {
 
 variable "region" {
   description = "AWS region"
-  default = "us-east-1"
+  default = "us-west-2"
 }
 
 variable "availability_zone" {
-  description = "availability zone used for the demo"
-  default = "us-east-1d"
+  description = "availability zone used for trriplejay test"
+  default = "us-west-2a"
 }
 
 # Special AMI for ECS container Service
 variable "amis" {
   description = "Base AMI to launch the instances with"
   default = {
-    us-east-1 = "ami-c16422a4"
+      us-west-2 = "ami-d74357b6"
   }
 }
 
 # this is a PEM key for key pairs
-variable "aws_key_name" {
+variable "key_name" {
   description = "Key Pair Name used to login to the box"
 }
 
 # all variables related to VPC
 variable "vpc_name" {
   description = "VPC for the cluster system"
-  default = "demoVPC"
+  default = "trriplejayVPC"
 }
 
 variable "networkCIDR" {
