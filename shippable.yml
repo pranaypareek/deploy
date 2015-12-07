@@ -1,7 +1,7 @@
 deploy:
   env:
     - foo=bar
-<invalid yml>
+
   before_prov:
     - echo 'this is happening before provisioning'
     - ls -ltra
